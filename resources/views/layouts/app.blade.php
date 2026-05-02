@@ -52,56 +52,86 @@
         {{-- Navigation --}}
         <nav class="flex-1 px-4 py-6 space-y-8 overflow-y-auto custom-scrollbar">
             
-            {{-- Dashboard --}}
+            {{-- General Section --}}
             <div class="space-y-1">
                 <a href="{{ route('dashboard') }}" @class(['sidebar-item', 'active' => request()->routeIs('dashboard')])>
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
-                    <span x-show="sidebarOpen" x-transition>Dashboard</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                    <span x-show="sidebarOpen" x-transition>Panel General</span>
                 </a>
             </div>
 
             {{-- Clinical Section --}}
+            @if(auth()->user()->tienePermiso('pacientes.gestionar') || auth()->user()->tienePermiso('servicios.gestionar'))
             <div class="space-y-1">
                 <p x-show="sidebarOpen" class="sidebar-section-title">Atención Clínica</p>
+                @if(auth()->user()->tienePermiso('pacientes.gestionar'))
                 <a href="{{ route('pacientes.index') }}" @class(['sidebar-item', 'active' => request()->routeIs('pacientes.*')])>
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                     <span x-show="sidebarOpen" x-transition>Pacientes</span>
                 </a>
+                @endif
+                @if(auth()->user()->tienePermiso('servicios.gestionar'))
                 <a href="{{ route('servicios.index') }}" @class(['sidebar-item', 'active' => request()->routeIs('servicios.*')])>
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.675.337a6 6 0 00-3.86.517l-2.387.477a2 2 0 00-1.022.547l-1.162 1.163a2 2 0 00.597 3.301l1.56.445a4 4 0 001.142.164h12.162a4 4 0 001.142-.164l1.56-.445a2 2 0 00.597-3.301l-1.162-1.163z"/></svg>
                     <span x-show="sidebarOpen" x-transition>Servicios</span>
                 </a>
+                @endif
             </div>
+            @endif
 
             {{-- Operational Section --}}
+            @if(auth()->user()->tienePermiso('personal.gestionar') || auth()->user()->tienePermiso('turnos.gestionar'))
             <div class="space-y-1">
                 <p x-show="sidebarOpen" class="sidebar-section-title">Operaciones</p>
+                @if(auth()->user()->tienePermiso('personal.gestionar'))
                 <a href="{{ route('personal.index') }}" @class(['sidebar-item', 'active' => request()->routeIs('personal.*')])>
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg>
                     <span x-show="sidebarOpen" x-transition>Personal</span>
                 </a>
+                @endif
+                @if(auth()->user()->tienePermiso('turnos.gestionar'))
                 <a href="{{ route('turnos.index') }}" @class(['sidebar-item', 'active' => request()->routeIs('turnos.*')])>
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     <span x-show="sidebarOpen" x-transition>Turnos</span>
                 </a>
+                @endif
             </div>
+            @endif
 
             {{-- Admin Section --}}
-            @if(auth()->user()->esAdmin())
+            @if(auth()->user()->esAdmin() || auth()->user()->tienePermiso('facturacion.gestionar') || auth()->user()->tienePermiso('finanzas.gestionar'))
             <div class="space-y-1">
-                <p x-show="sidebarOpen" class="sidebar-section-title">Soporte y Admin</p>
+                <p x-show="sidebarOpen" class="sidebar-section-title">Administración</p>
+                @if(auth()->user()->tienePermiso('facturacion.gestionar'))
                 <a href="{{ route('facturacion.index') }}" @class(['sidebar-item', 'active' => request()->routeIs('facturacion.*')])>
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                     <span x-show="sidebarOpen" x-transition>Facturación</span>
                 </a>
+                @endif
+                @if(auth()->user()->tienePermiso('finanzas.gestionar'))
                 <a href="{{ route('finanzas.index') }}" @class(['sidebar-item', 'active' => request()->routeIs('finanzas.*')]) title="Egresos y balances">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     <span x-show="sidebarOpen" x-transition>Egresos / Finanzas</span>
                 </a>
-                <a href="{{ route('configuracion.index') }}" @class(['sidebar-item', 'active' => request()->routeIs('configuracion.*')])>
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                    <span x-show="sidebarOpen" x-transition>Configuración</span>
-                </a>
+                @endif
+                
+                @if(auth()->user()->esAdmin())
+                <div class="pt-2 mt-2 border-t border-white/5">
+                    <p x-show="sidebarOpen" class="text-[9px] font-bold text-slate-500 uppercase px-4 mb-2 tracking-widest">Sistema</p>
+                    <a href="{{ route('usuarios.index') }}" @class(['sidebar-item', 'active' => request()->routeIs('usuarios.*')])>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                        <span x-show="sidebarOpen" x-transition>Usuarios</span>
+                    </a>
+                    <a href="{{ route('roles.index') }}" @class(['sidebar-item', 'active' => request()->routeIs('roles.*')])>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A3.323 3.323 0 0010.603 3.303l-2.408 2.41a3.323 3.323 0 000 4.699 3.323 3.323 0 004.699 0l2.408-2.41a3.323 3.323 0 000-4.699zM12 14a3 3 0 110-6 3 3 0 010 6z"/></svg>
+                        <span x-show="sidebarOpen" x-transition>Roles</span>
+                    </a>
+                    <a href="{{ route('configuracion.index') }}" @class(['sidebar-item', 'active' => request()->routeIs('configuracion.*')])>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        <span x-show="sidebarOpen" x-transition>Configuración</span>
+                    </a>
+                </div>
+                @endif
             </div>
             @endif
         </nav>

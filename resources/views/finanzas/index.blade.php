@@ -47,21 +47,52 @@
     {{-- Tables --}}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <div class="card">
-            <h3 class="font-semibold text-slate-800 mb-3">Ingresos del Período</h3>
-            @if($ingresos->isEmpty())
-                <p class="text-slate-400 text-sm">Sin ingresos en este período.</p>
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-semibold text-slate-800">Detalle de Ingresos</h3>
+                <span class="text-[10px] bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Total: S/ {{ number_format($totalIngresos, 2) }}</span>
+            </div>
+            
+            @if($ingresos->isEmpty() && $facturas->isEmpty())
+                <p class="text-slate-400 text-sm py-8 text-center">Sin ingresos registrados en este período.</p>
             @else
-            <div class="space-y-2">
+            <div class="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+                {{-- Facturas --}}
+                @foreach($facturas as $f)
+                <div class="flex items-start gap-3 py-3 border-b border-slate-50 last:border-0 hover:bg-slate-50/50 transition-colors rounded-xl px-2 -mx-2">
+                    <div class="w-8 h-8 bg-teal-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 shadow-sm">
+                        <svg class="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 mb-0.5">
+                            <span class="text-[9px] font-bold text-teal-600 bg-teal-50 px-1.5 py-0.5 rounded uppercase">Factura</span>
+                            <p class="text-sm font-bold text-slate-700 truncate">{{ $f->serie }}-{{ $f->correlativo }}</p>
+                        </div>
+                        <p class="text-xs text-slate-500 truncate">{{ optional($f->paciente)->nombre_completo ?? 'Paciente General' }}</p>
+                        <p class="text-[10px] text-slate-400 mt-1">{{ $f->fecha_emision->format('d/m/Y H:i') }}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-sm font-bold text-teal-700">S/ {{ number_format($f->total, 2) }}</p>
+                    </div>
+                </div>
+                @endforeach
+
+                {{-- Ingresos Manuales --}}
                 @foreach($ingresos as $i)
-                <div class="flex items-start gap-3 py-2 border-b border-slate-100 last:border-0">
-                    <div class="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                <div class="flex items-start gap-3 py-3 border-b border-slate-50 last:border-0 hover:bg-slate-50/50 transition-colors rounded-xl px-2 -mx-2">
+                    <div class="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 shadow-sm">
                         <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"/></svg>
                     </div>
                     <div class="flex-1 min-w-0">
-                        <p class="text-sm font-medium text-slate-700 truncate">{{ $i->concepto }}</p>
-                        <p class="text-xs text-slate-400">{{ $i->metodo_pago }} · {{ $i->fecha_ingreso->format('d/m/Y') }}</p>
+                        <div class="flex items-center gap-2 mb-0.5">
+                            <span class="text-[9px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded uppercase">Manual</span>
+                            <p class="text-sm font-bold text-slate-700 truncate">{{ $i->concepto }}</p>
+                        </div>
+                        <p class="text-xs text-slate-500">{{ $i->metodo_pago }}</p>
+                        <p class="text-[10px] text-slate-400 mt-1">{{ $i->fecha_ingreso->format('d/m/Y') }}</p>
                     </div>
-                    <p class="text-sm font-bold text-emerald-700">S/ {{ number_format($i->monto, 2) }}</p>
+                    <div class="text-right">
+                        <p class="text-sm font-bold text-emerald-700">S/ {{ number_format($i->monto, 2) }}</p>
+                    </div>
                 </div>
                 @endforeach
             </div>

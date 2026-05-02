@@ -9,18 +9,22 @@
 @endsection
 @section('content')
 <div class="space-y-4">
-    <form method="GET" class="filter-bar items-center">
-        <div><label class="text-xs text-slate-500 font-medium block mb-1">Fecha</label>
-            <input type="date" name="fecha" value="{{ request('fecha') }}" class="form-input"></div>
-        <div><label class="text-xs text-slate-500 font-medium block mb-1">Personal</label>
-            <select name="id_personal" class="form-select w-48">
-                <option value="">Todos</option>
-                @foreach($personal as $p)
-                <option value="{{ $p->id_personal }}" @selected(request('id_personal')==$p->id_personal)>{{ $p->nombre_completo }}</option>
-                @endforeach
-            </select></div>
-        <div class="self-end"><button type="submit" class="btn-primary">Filtrar</button></div>
-        <div class="self-end"><a href="{{ route('turnos.index') }}" class="btn-secondary">Limpiar</a></div>
+    <form method="GET" class="flex flex-wrap items-end gap-4 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+        <div class="flex-1 min-w-[200px]">
+            <label class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-1">Buscar Personal</label>
+            <input type="text" name="buscar" value="{{ request('buscar') }}" placeholder="Nombre o apellido..." class="form-input">
+        </div>
+        <div>
+            <label class="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mb-1">Filtrar por Fecha</label>
+            <input type="date" name="fecha" value="{{ request('fecha') }}" class="form-input">
+        </div>
+        <div class="flex gap-2">
+            <button type="submit" class="btn-primary">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                Buscar
+            </button>
+            <a href="{{ route('turnos.index') }}" class="btn-secondary">Limpiar</a>
+        </div>
     </form>
     <div class="card p-0 overflow-hidden">
         <div class="table-container">

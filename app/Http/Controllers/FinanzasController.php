@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ingreso;
 use App\Models\Egreso;
+use App\Models\Factura;
 use App\Models\BitacoraSistema;
 use Illuminate\Http\Request;
 
@@ -18,15 +19,22 @@ class FinanzasController extends Controller
             ->whereYear('fecha_ingreso', $anio)->where('estado', 1)
             ->latest('fecha_ingreso')->get();
 
+        $facturas = Factura::whereMonth('fecha_emision', $mes)
+            ->whereYear('fecha_emision', $anio)->where('estado', 1)
+            ->with('paciente')->latest('fecha_emision')->get();
+
         $egresos = Egreso::whereMonth('fecha_egreso', $mes)
             ->whereYear('fecha_egreso', $anio)->where('estado', 1)
             ->latest('fecha_egreso')->get();
 
-        $totalIngresos = $ingresos->sum('monto');
+        $totalIngresosManuales = $ingresos->sum('monto');
+        $totalFacturacion      = $facturas->sum('total');
+        $totalIngresos         = $totalIngresosManuales + $totalFacturacion;
+        
         $totalEgresos  = $egresos->sum('monto');
         $balance       = $totalIngresos - $totalEgresos;
 
-        return view('finanzas.index', compact('ingresos', 'egresos', 'totalIngresos', 'totalEgresos', 'balance', 'mes', 'anio'));
+        return view('finanzas.index', compact('ingresos', 'facturas', 'egresos', 'totalIngresos', 'totalFacturacion', 'totalEgresos', 'balance', 'mes', 'anio'));
     }
 
     public function createIngreso()

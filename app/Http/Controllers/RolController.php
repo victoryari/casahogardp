@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Rol;
+use App\Models\Permiso;
 use App\Models\BitacoraSistema;
 use Illuminate\Http\Request;
 
@@ -32,7 +33,9 @@ class RolController extends Controller
 
     public function edit(Rol $rol)
     {
-        return view('roles.edit', compact('rol'));
+        $permisos = Permiso::orderBy('modulo')->orderBy('nombre_permiso')->get()->groupBy('modulo');
+        $rolPermisos = $rol->permisos->pluck('id_permiso')->toArray();
+        return view('roles.edit', compact('rol', 'permisos', 'rolPermisos'));
     }
 
     public function update(Request $request, Rol $rol)
@@ -41,8 +44,11 @@ class RolController extends Controller
             'nombre_rol'  => 'required|string|max:50|unique:roles,nombre_rol,'.$rol->id_rol.',id_rol',
             'descripcion' => 'nullable|string|max:255',
             'estado'      => 'required|boolean',
+            'permisos'    => 'nullable|array',
         ]);
         $rol->update($data);
+        $rol->permisos()->sync($request->permisos ?? []);
+        
         BitacoraSistema::registrar('EDITAR', 'roles', $rol->id_rol, "Rol actualizado: {$rol->nombre_rol}");
         return redirect()->route('roles.index')->with('success', 'Rol actualizado.');
     }

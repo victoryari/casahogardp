@@ -42,4 +42,10 @@ class Usuario extends Authenticatable
     {
         return $this->tieneRol('Administrador');
     }
+
+    public function tienePermiso(string $llave): bool
+    {
+        if ($this->esAdmin()) return true;
+        return $this->rol->permisos()->where('llave', $llave)->exists();
+    }
 }

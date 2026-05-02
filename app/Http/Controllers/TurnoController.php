@@ -20,6 +20,10 @@ class TurnoController extends Controller
         if ($request->filled('id_personal')) {
             $query->where('id_personal', $request->id_personal);
         }
+        if ($request->filled('buscar')) {
+            $query->whereHas('personal', fn($q) => $q->where('nombres', 'like', "%{$request->buscar}%")
+                ->orWhere('apellidos', 'like', "%{$request->buscar}%"));
+        }
         $turnos   = $query->orderBy('fecha_turno', 'desc')->paginate(20)->withQueryString();
         $personal = Personal::where('estado', 1)->orderBy('apellidos')->get();
         return view('turnos.index', compact('turnos', 'personal'));
