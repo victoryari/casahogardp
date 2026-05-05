@@ -41,7 +41,14 @@ class PacienteController extends Controller
             'fecha_ingreso'        => 'required|date',
             'contacto_emergencia'  => 'nullable|string|max:255',
             'telefono_emergencia'  => 'nullable|string|max:20',
+            'contacto_emergencia_nombre'   => 'nullable|string|max:100',
+            'contacto_emergencia_telefono' => 'nullable|string|max:20',
             'condicion_medica'     => 'nullable|string',
+            'alergias'             => 'nullable|string',
+            'medicamentos_actuales'=> 'nullable|string',
+            'grado_dependencia'    => 'nullable|string|max:50',
+            'tipo_dieta'           => 'nullable|string|max:50',
+            'soporte_movilidad'    => 'nullable|string|max:50',
         ]);
         $p = Paciente::create($data);
         BitacoraSistema::registrar('CREAR', 'pacientes', $p->id_paciente, "Paciente creado: {$p->nombre_completo}");
@@ -70,7 +77,14 @@ class PacienteController extends Controller
             'fecha_ingreso'        => 'required|date',
             'contacto_emergencia'  => 'nullable|string|max:255',
             'telefono_emergencia'  => 'nullable|string|max:20',
+            'contacto_emergencia_nombre'   => 'nullable|string|max:100',
+            'contacto_emergencia_telefono' => 'nullable|string|max:20',
             'condicion_medica'     => 'nullable|string',
+            'alergias'             => 'nullable|string',
+            'medicamentos_actuales'=> 'nullable|string',
+            'grado_dependencia'    => 'nullable|string|max:50',
+            'tipo_dieta'           => 'nullable|string|max:50',
+            'soporte_movilidad'    => 'nullable|string|max:50',
             'estado'               => 'required|boolean',
         ]);
         $paciente->update($data);

@@ -9,7 +9,14 @@
 @endsection
 
 @section('content')
-<div class="card p-0 overflow-hidden">
+<div class="space-y-4">
+    <form method="GET" class="filter-bar">
+        <input type="text" name="buscar" value="{{ request('buscar') }}" placeholder="Buscar usuario..." class="form-input max-w-xs">
+        <button type="submit" class="btn-primary">Buscar</button>
+        <a href="{{ route('usuarios.index') }}" class="btn-secondary">Limpiar</a>
+    </form>
+
+    <div class="card p-0 overflow-hidden">
     <div class="table-container">
         <table class="table">
             <thead>

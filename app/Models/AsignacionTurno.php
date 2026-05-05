@@ -13,9 +13,15 @@ class AsignacionTurno extends Model
     const CREATED_AT = 'fecha_registro';
     const UPDATED_AT = null;
 
-    protected $fillable = ['id_personal', 'id_usuario_asigno', 'fecha_turno', 'hora_inicio', 'hora_fin', 'estado'];
+    protected $fillable = [
+        'id_personal', 'id_usuario_asigno', 'fecha_turno', 'hora_inicio', 'hora_fin', 'estado',
+        'estado_aprobacion', 'id_usuario_valida', 'fecha_validacion', 'comentarios_aprobacion'
+    ];
 
-    protected $casts = ['fecha_turno' => 'date'];
+    protected $casts = [
+        'fecha_turno' => 'date',
+        'fecha_validacion' => 'datetime',
+    ];
 
     public function personal()
     {
@@ -25,5 +31,10 @@ class AsignacionTurno extends Model
     public function usuarioAsigno()
     {
         return $this->belongsTo(Usuario::class, 'id_usuario_asigno', 'id_usuario');
+    }
+
+    public function usuarioValida()
+    {
+        return $this->belongsTo(Usuario::class, 'id_usuario_valida', 'id_usuario');
     }
 }

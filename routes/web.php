@@ -31,6 +31,8 @@ Route::middleware('auth')->group(function () {
          ->parameters(['personal' => 'personal']);
 
     // Turnos
+    Route::get('turnos/calendario', [TurnoController::class, 'calendario'])->name('turnos.calendario');
+    Route::post('turnos/{turno}/validar', [TurnoController::class, 'validar'])->name('turnos.validar');
     Route::resource('turnos', TurnoController::class)
          ->parameters(['turnos' => 'turno']);
 

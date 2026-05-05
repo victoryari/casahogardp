@@ -6,7 +6,7 @@
 @endsection
 
 @section('content')
-<div class="max-w-xl">
+<div class="max-w-3xl">
     <div class="card">
         <form action="{{ route('roles.update', $rol) }}" method="POST" class="space-y-6">
             @csrf

@@ -16,7 +16,10 @@ class Paciente extends Model
     protected $fillable = [
         'nombres', 'apellidos', 'tipo_documento', 'numero_documento',
         'fecha_nacimiento', 'contacto_emergencia', 'telefono_emergencia',
-        'condicion_medica', 'estado', 'fecha_ingreso',
+        'condicion_medica', 'alergias', 'medicamentos_actuales',
+        'contacto_emergencia_nombre', 'contacto_emergencia_telefono',
+        'grado_dependencia', 'tipo_dieta', 'soporte_movilidad',
+        'estado', 'fecha_ingreso',
     ];
 
     protected $casts = [

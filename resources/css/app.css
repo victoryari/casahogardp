@@ -100,12 +100,17 @@
 
     /* Badges with Micro-glow */
     .premium-badge {
-        @apply inline-flex items-center px-3 py-1 rounded-lg text-[11px] font-bold uppercase tracking-wider;
+        @apply inline-flex items-center px-3 py-1 rounded-lg text-[11px] font-bold uppercase tracking-wider border;
     }
-    .badge-success { @apply bg-emerald-50 text-emerald-600 border border-emerald-100; }
-    .badge-warning { @apply bg-amber-50 text-amber-600 border border-amber-100; }
-    .badge-danger  { @apply bg-rose-50 text-rose-600 border border-rose-100; }
-    .badge-primary { @apply bg-teal-50 text-teal-600 border border-teal-100; }
+    .badge-active { @apply premium-badge bg-emerald-50 text-emerald-600 border-emerald-100; }
+    .badge-inactive { @apply premium-badge bg-slate-50 text-slate-400 border-slate-100; }
+    .badge-pending { @apply premium-badge bg-amber-50 text-amber-600 border-amber-100; }
+    .badge-info { @apply premium-badge bg-blue-50 text-blue-600 border-blue-100; }
+
+    /* Filter Bar Component */
+    .filter-bar {
+        @apply flex flex-wrap gap-4 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm mb-6 items-center;
+    }
 
     /* Glass Glow */
     .glass-glow {
