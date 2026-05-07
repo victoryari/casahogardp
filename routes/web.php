@@ -12,6 +12,7 @@ use App\Http\Controllers\FacturacionController;
 use App\Http\Controllers\FinanzasController;
 use App\Http\Controllers\MarketingController;
 use App\Http\Controllers\ConfiguracionController;
+use App\Http\Controllers\MedicationController;
 use Illuminate\Support\Facades\Route;
 
 // ── Auth ──────────────────────────────────────────────
@@ -62,6 +63,14 @@ Route::middleware('auth')->group(function () {
     // Marketing
     Route::resource('marketing', MarketingController::class)
          ->parameters(['marketing' => 'marketing']);
+
+    // Medicación
+    Route::prefix('medication')->name('medication.')->group(function () {
+        Route::get('/dashboard', [MedicationController::class, 'dashboard'])->name('dashboard');
+        Route::get('/create/{paciente}', [MedicationController::class, 'create'])->name('create');
+        Route::post('/store', [MedicationController::class, 'store'])->name('store');
+        Route::post('/{administracion}/administrar', [MedicationController::class, 'administrar'])->name('administrar');
+    });
 
     // Solo administrador
     Route::middleware('rol:Administrador')->group(function () {

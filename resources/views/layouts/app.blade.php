@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Dashboard') – CasaHogar</title>
+    <title>@yield('title', 'Dashboard') – La Divina Providencia</title>
     
     {{-- Fonts & Assets --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,7 +44,7 @@
                     </svg>
                 </div>
                 <div class="transition-opacity duration-300" :class="sidebarOpen ? 'opacity-100' : 'opacity-0 w-0'">
-                    <span class="text-white font-bold text-lg tracking-tight">Casa<span class="text-teal-400">Hogar</span></span>
+                    <span class="text-white font-bold text-lg tracking-tight">Divina<span class="text-teal-400">Providencia</span></span>
                 </div>
             </div>
         </div>
@@ -94,6 +94,10 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     <span x-show="sidebarOpen" x-transition>Turnos</span>
                 </a>
+                <a href="{{ route('medication.dashboard') }}" @class(['sidebar-item', 'active' => request()->routeIs('medication.*')])>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86 7.717l.644 2.576a2 2 0 002.186 1.508l2.736-.342a2 2 0 001.21-.602l2.104-2.104a2 2 0 00.596-1.414l-.372-3.722z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 8a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    <span x-show="sidebarOpen" x-transition>Medicación</span>
+                </a>
                 @endif
             </div>
             @endif
@@ -136,18 +140,6 @@
             @endif
         </nav>
 
-        {{-- Sidebar Footer --}}
-        <div class="p-4 border-t border-white/5">
-            <div class="bg-white/5 rounded-2xl p-4 flex items-center gap-3">
-                <div class="w-8 h-8 bg-teal-500 rounded-xl flex items-center justify-center font-bold text-white shadow-lg">
-                    {{ strtoupper(substr(auth()->user()->nombre_usuario, 0, 1)) }}
-                </div>
-                <div class="flex-1 min-w-0" x-show="sidebarOpen" x-transition>
-                    <p class="text-white text-sm font-semibold truncate">{{ auth()->user()->nombre_usuario }}</p>
-                    <p class="text-slate-400 text-xs truncate">{{ optional(auth()->user()->rol)->nombre_rol }}</p>
-                </div>
-            </div>
-        </div>
     </aside>
 
     {{-- ── MAIN CONTENT AREA ── --}}
@@ -165,7 +157,7 @@
                 <div class="ml-2">
                     <h2 class="text-xl font-bold text-slate-800 tracking-tight">@yield('page-title', 'Dashboard')</h2>
                     <nav class="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                        <span>CasaHogar</span>
+                        <span>La Divina Providencia</span>
                         <svg class="w-2 h-2" fill="currentColor" viewBox="0 0 20 20"><path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"/></svg>
                         @yield('breadcrumb', 'Overview')
                     </nav>
@@ -257,8 +249,8 @@
 
         {{-- Minimal Footer --}}
         <footer class="px-8 py-4 bg-white/50 border-t border-slate-200/60 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] flex justify-between">
-            <span>&copy; {{ date('Y') }} CasaHogar Management System</span>
-            <span class="text-teal-500">v2.1.0 Premium</span>
+            <span>&copy; {{ date('Y') }} La Divina Providencia - Sistema de Gestión Administrativa</span>
+            <span class="text-teal-500">v2.1.0</span>
         </footer>
     </div>
 </div>

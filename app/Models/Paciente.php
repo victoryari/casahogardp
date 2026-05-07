@@ -32,6 +32,11 @@ class Paciente extends Model
         return $this->hasMany(Factura::class, 'id_paciente', 'id_paciente');
     }
 
+    public function prescripciones()
+    {
+        return $this->hasMany(Prescripcion::class, 'id_paciente', 'id_paciente');
+    }
+
     public function getNombreCompletoAttribute(): string
     {
         return $this->nombres . ' ' . $this->apellidos;

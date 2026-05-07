@@ -74,11 +74,20 @@
         @apply w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-inner;
     }
 
-    /* Inputs */
-    .form-input {
+    /* Forms & Inputs */
+    .form-input, .form-select, .form-textarea {
         @apply w-full px-4 py-3 rounded-2xl border border-slate-200 text-sm text-slate-800
                focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500/50
                transition-all duration-200 bg-slate-50/50 placeholder-slate-400;
+    }
+    .form-label {
+        @apply block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2 ml-1;
+    }
+    .form-error {
+        @apply mt-1 text-xs text-rose-500 font-medium ml-1 animate-fade-in;
+    }
+    .is-invalid {
+        @apply border-rose-300 bg-rose-50/30 focus:border-rose-500 focus:ring-rose-500/10 !important;
     }
 
     /* Table Refresh */

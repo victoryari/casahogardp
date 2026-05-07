@@ -82,6 +82,38 @@
             <p class="text-sm text-slate-700 leading-relaxed">{{ $paciente->condicion_medica ?: 'Sin notas adicionales.' }}</p>
         </div>
         <div class="card">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-semibold text-slate-800">Medicación Activa (Kardex)</h3>
+                <a href="{{ route('medication.create', $paciente) }}" class="text-teal-600 text-xs font-bold uppercase hover:underline flex items-center gap-1">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                    Nueva Prescripción
+                </a>
+            </div>
+            @if($paciente->prescripciones->where('estado', 'activa')->isEmpty())
+                <div class="bg-slate-50 border border-dashed border-slate-200 rounded-2xl p-6 text-center">
+                    <p class="text-slate-400 text-sm">No hay medicamentos activos registrados en el sistema.</p>
+                </div>
+            @else
+            <div class="table-container">
+                <table class="table">
+                    <thead><tr><th>Medicamento</th><th>Dosis</th><th>Frecuencia</th><th>Vía</th><th>Inicio</th></tr></thead>
+                    <tbody>
+                    @foreach($paciente->prescripciones->where('estado', 'activa') as $p)
+                    <tr>
+                        <td class="font-bold text-slate-800">{{ $p->medicamento }}</td>
+                        <td class="text-xs text-slate-500">{{ $p->dosis }}</td>
+                        <td>Cada {{ $p->frecuencia_horas }}h</td>
+                        <td><span class="px-2 py-0.5 bg-slate-100 text-slate-500 rounded-full text-[10px] font-bold uppercase">{{ $p->via_administracion }}</span></td>
+                        <td class="text-xs text-slate-500">{{ $p->fecha_inicio->format('d/m/Y') }}</td>
+                    </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+            @endif
+        </div>
+
+        <div class="card">
             <h3 class="font-semibold text-slate-800 mb-4">Historial de Facturas</h3>
             @if($paciente->facturas->isEmpty())
                 <p class="text-slate-400 text-sm">Sin facturas registradas.</p>
