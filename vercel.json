@@ -27,4 +27,5 @@
         "APP_URL": "https://casahogardp.vercel.app",
         "DB_CONNECTION": "mysql"
     }
-}
+} 
+
